@@ -1,0 +1,11 @@
+{
+  "repositories": [
+    {
+      "owner": "linagora",
+      "repository": "linshare-mobile-flutter-app"
+    }
+  ],
+  "parameters" : {
+    "monthsDuration": 1
+  }
+}

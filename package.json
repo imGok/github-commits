@@ -1,0 +1,15 @@
+{
+  "name": "github-commits",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "julian",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^18.5.3",
+    "octokit": "^1.0.3"
+  }
+}
