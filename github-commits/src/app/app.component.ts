@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
-      owner: ['linagora', [Validators.required]],
+      owner: [null, [Validators.required]],
       repository: [null, [Validators.required]],
     });
   }

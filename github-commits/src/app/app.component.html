@@ -1,8 +1,7 @@
 <h1 fxLayoutAlign="center center" class="main-title">GitHub Commits Counter</h1>
 
 <div fxLayoutAlign="center center" class="container" fxLayout="column">
-  <div fxLayout="column">
-    <div class="saved-repositories" fxFlex>
+    <div class="saved-repositories" fxFlex fxLayout="column">
       <h2 fxLayoutAlign="center center">Repositories</h2>
       <div fxLayout="column" fxLayoutAlign="center center">
         <button
@@ -20,7 +19,6 @@
         </button>
       </div>
     </div>
-  </div>
 
   <div class="add-repo">
     <form
@@ -30,25 +28,29 @@
     >
       <mat-card-content fxLayout="column">
         <mat-form-field class="owner-full-width">
+          <mat-label>Owner</mat-label>
           <input
             matInput
-            placeholder="Owner"
+            placeholder="Ex. Linagora"
             type="text"
             formControlName="owner"
             required
           />
-          <mat-error> Please put a correct owner name </mat-error>
+          <mat-hint>GitHub Account or Organization</mat-hint>
+          <mat-error>Please put a correct owner name</mat-error>
         </mat-form-field>
 
         <mat-form-field class="repository-full-width">
+          <mat-label>Repository</mat-label>
           <input
             matInput
-            placeholder="Repository Name"
+            placeholder="Ex. Twake"
             type="text"
             formControlName="repository"
             required
           />
-          <mat-error> Please put a correct repository name </mat-error>
+          <mat-hint>Repository name</mat-hint>
+          <mat-error>Please put a correct repository name</mat-error>
         </mat-form-field>
       </mat-card-content>
       <button
@@ -57,6 +59,7 @@
         mat-stroked-button
         color="primary"
         fxFlexFill
+        class="btn"
       >
         Add
       </button>
@@ -97,8 +100,8 @@
   </button>
 </div>
 
-<div class="result" fxLayout="row">
-  <div *ngFor="let res of result" class="result-item">
+<div class="result">
+  <mat-card *ngFor="let res of result" class="result-item">
     <h2>
       {{ res.owner + " - " + res.repository }}
     </h2>
@@ -114,5 +117,5 @@
     <span>
       {{ res.totalCommits }}
     </span>
-  </div>
+  </mat-card>
 </div>
