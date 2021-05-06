@@ -1,0 +1,118 @@
+<h1 fxLayoutAlign="center center" class="main-title">GitHub Commits Counter</h1>
+
+<div fxLayoutAlign="center center" class="container" fxLayout="column">
+  <div fxLayout="column">
+    <div class="saved-repositories" fxFlex>
+      <h2 fxLayoutAlign="center center">Repositories</h2>
+      <div fxLayout="column" fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          *ngFor="let repository of repositories"
+          (click)="onDeleteRepo(repository)"
+          matTooltip="Delete"
+          matTooltipPosition="right"
+          class="item"
+        >
+          <div class="owner-chips">{{ "Owner : " + repository.owner }}</div>
+          <span class="repository-chips">{{
+            "Repository : " + repository.repository
+          }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="add-repo">
+    <form
+      [formGroup]="formGroup"
+      class="add-repo-form"
+      (ngSubmit)="addRepository()"
+    >
+      <mat-card-content fxLayout="column">
+        <mat-form-field class="owner-full-width">
+          <input
+            matInput
+            placeholder="Owner"
+            type="text"
+            formControlName="owner"
+            required
+          />
+          <mat-error> Please put a correct owner name </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="repository-full-width">
+          <input
+            matInput
+            placeholder="Repository Name"
+            type="text"
+            formControlName="repository"
+            required
+          />
+          <mat-error> Please put a correct repository name </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <button
+        type="submit"
+        [disabled]="!formGroup.valid"
+        mat-stroked-button
+        color="primary"
+        fxFlexFill
+      >
+        Add
+      </button>
+    </form>
+  </div>
+
+  <div class="date">
+    <h2 fxLayoutAlign="center center">Date</h2>
+    <mat-form-field appearance="fill">
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <input matStartDate formControlName="start" placeholder="Start date" />
+        <input matEndDate formControlName="end" placeholder="End date" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+
+      <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')"
+        >Invalid start date</mat-error
+      >
+      <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')"
+        >Invalid end date</mat-error
+      >
+    </mat-form-field>
+  </div>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="
+      repositories.length == 0 ||
+      range.value['start'] == null ||
+      range.value['end'] == null
+    "
+  >
+    Send
+  </button>
+</div>
+
+<div class="result" fxLayout="row">
+  <div *ngFor="let res of result" class="result-item">
+    <h2>
+      {{ res.owner + " - " + res.repository }}
+    </h2>
+
+    <h3>Committers :</h3>
+    <div fxLayout="column">
+      <span *ngFor="let mapEntry of res.committers | keyvalue">
+        {{ mapEntry.key }} - {{ mapEntry.value }}
+      </span>
+    </div>
+
+    <h3>Number of commits :</h3>
+    <span>
+      {{ res.totalCommits }}
+    </span>
+  </div>
+</div>
