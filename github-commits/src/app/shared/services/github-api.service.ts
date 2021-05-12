@@ -33,6 +33,8 @@ export class GitHubApiService {
     startDate: string,
     endDate: string
   ) {
+    var i = 0;
+
     return Promise.all(
       repository.map(async (repo) => {
         var commitInfo = await this.octokit.paginate(
@@ -42,13 +44,19 @@ export class GitHubApiService {
             repo: repo.repository,
             since: startDate,
             until: endDate,
+            per_page: 100,
           },
-          (response) => response.data
+          (response) => {
+            i++
+            console.log("Number of requests : " + i);
+            return response.data
+          }
         );
 
         var authorsNames = commitInfo.map(
           (commitResponse) => commitResponse.commit.author.email
         );
+
         var authorsNamesMap = authorsNames.reduce((acc, curr) => {
           acc[curr] = (acc[curr] || 0) + 1;
           return acc;
