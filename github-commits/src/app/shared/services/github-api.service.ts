@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Octokit } from '@octokit/rest';
-import { Observable } from 'rxjs/internal/Observable';
-import { zip } from 'rxjs/internal/observable/zip';
 import { ICommitInfo } from '../helpers/interfaces/commit.interface';
 import { IRepository } from '../helpers/interfaces/repository.interface';
 
@@ -13,6 +11,26 @@ export class GitHubApiService {
 
   constructor() {
     this.octokit = new Octokit({
+      baseUrl: 'https://api.github.com',
+      log: {
+        debug: () => {},
+        info: () => {},
+        warn: console.warn,
+        error: console.error,
+      },
+      request: {
+        agent: undefined,
+        fetch: undefined,
+        timeout: 0,
+      },
+    });
+  }
+
+  async authenticate(
+    token: string
+  ) {
+    this.octokit = new Octokit({
+      auth: token,
       baseUrl: 'https://api.github.com',
       log: {
         debug: () => {},

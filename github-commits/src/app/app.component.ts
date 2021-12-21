@@ -15,7 +15,8 @@ import { GitHubApiService } from './shared/services/github-api.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  formGroup: FormGroup;
+  addRepoFormGroup: FormGroup;
+  addTokenFormGroup: FormGroup;
 
   repositories: IRepository[] = [];
 
@@ -36,16 +37,20 @@ export class AppComponent implements OnInit {
   }
 
   createForm() {
-    this.formGroup = this.formBuilder.group({
+    this.addRepoFormGroup = this.formBuilder.group({
       owner: [null, [Validators.required]],
       repository: [null, [Validators.required]],
+    });
+
+    this.addTokenFormGroup = this.formBuilder.group({
+      token: [null, [Validators.required]],
     });
   }
 
   addRepository() {
     this.repositories.push({
-      owner: this.formGroup.value['owner'],
-      repository: this.formGroup.value['repository'],
+      owner: this.addRepoFormGroup.value['owner'],
+      repository: this.addRepoFormGroup.value['repository'],
     } as IRepository);
   }
 
@@ -67,6 +72,10 @@ export class AppComponent implements OnInit {
       .then((commitsInfo) => {
         this.result = commitsInfo;
       });
+  }
+
+  onAuth() {
+    this.gitHubApiService.authenticate(this.addTokenFormGroup.value['token']);
   }
 
   onDeleteRepo(repository: IRepository) {
